@@ -40,7 +40,7 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/users/login")
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
         return http.build();
     }
 
