@@ -20,6 +20,11 @@ public class UserController {
         return "my-profile";
     }
 
+    // REGISTER
+
+
+
+
 
 
 }

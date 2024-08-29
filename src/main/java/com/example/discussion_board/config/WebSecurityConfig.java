@@ -1,21 +1,25 @@
 package com.example.discussion_board.config;
 
+import com.example.discussion_board.filters.JwtTokenFilter;
+import com.example.discussion_board.jwt.JwtTokenUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
 public class WebSecurityConfig {
     private final  UserDetailsService detailsService;
+    private final JwtTokenUtil tokenUtil;
 
 
-    public WebSecurityConfig(UserDetailsService detailsService) {
+    public WebSecurityConfig(UserDetailsService detailsService, JwtTokenUtil tokenUtil) {
         this.detailsService = detailsService;
+        this.tokenUtil = tokenUtil;
     }
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -39,8 +43,14 @@ public class WebSecurityConfig {
                         .logoutUrl("/users/logout")
                         .logoutSuccessUrl("/users/login")
                 )
+                .addFilterBefore(
+                        new JwtTokenFilter(tokenUtil, detailsService),
+                        AuthorizationFilter.class
+                )
+
+                // Use jwt -> set STATELESS
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
