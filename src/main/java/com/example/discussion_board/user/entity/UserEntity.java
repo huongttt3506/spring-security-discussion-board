@@ -31,9 +31,11 @@ public class UserEntity {
     @Setter
     private String address;
     @Setter
+    private String profileImagePath;
+    @Setter
     @Enumerated(EnumType.STRING)
     private UserRole role;
-    @Setter
-    private String profileImagePath;
-
 }
+
+
+

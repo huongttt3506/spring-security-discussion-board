@@ -18,8 +18,11 @@ public class UserDto {
     private String email;
     private String phone;
     private String address;
-    private String role;
     private String profileImagePath;
+    private String role;
+
+
+
 
     public static UserDto fromEntity(UserEntity entity) {
         return new UserDto(
@@ -32,8 +35,8 @@ public class UserDto {
                 entity.getEmail(),
                 entity.getPhone(),
                 entity.getAddress(),
-                entity.getRole().name(),
-                entity.getProfileImagePath()
+                entity.getProfileImagePath(),
+                entity.getRole().name()
         );
     }
 }

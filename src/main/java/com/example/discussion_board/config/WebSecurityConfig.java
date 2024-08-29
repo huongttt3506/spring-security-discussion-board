@@ -26,6 +26,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/users/my-profile")
                             .authenticated();
+
+                    auth.anyRequest().authenticated();
                 })
                 .formLogin(formLogin -> formLogin
                         .loginPage("/users/login")
